@@ -15,7 +15,7 @@ context:
 message:
   orderbook:
     orders:
-    - id: 17d1b97b-276a-4321-144e-b1021539ba6d
+    - id: '{{order_id_1}}'
       state: Completed
       payment:
         uri: https://api.razorpay.com/rsp
@@ -86,7 +86,7 @@ message:
       settlement_reason_code: '01'
       settlement_reference_no: LcQnCo6vNoHJMF
       order_recon_status: '{{recon_status_01}}'
-    - id: 5b6d6b3b-5c9b-44a6-a6d1-0a3f2f50b6c5
+    - id: '{{order_id_2}}'
       state: Completed
       payment:
         uri: https://api.razorpay.com/rsp
@@ -157,7 +157,7 @@ message:
       settlement_reason_code: '01'
       settlement_reference_no: LcQnCo72PIAPFp
       order_recon_status: '{{recon_status_02}}'
-    - id: e3c8f4a4-2b6e-4b79-8a16-512d8c66b3ff
+    - id: '{{order_id_3}}'
       state: Completed
       payment:
         uri: https://api.razorpay.com/rsp
@@ -228,7 +228,7 @@ message:
       settlement_reason_code: '01'
       settlement_reference_no: LcQnCo73hwPmr2
       order_recon_status: '{{recon_status_03}}'
-    - id: a2a8431e-412e-44d4-b7b0-0dc39c5f95df
+    - id: '{{order_id_4}}'
       state: Completed
       payment:
         uri: https://api.razorpay.com/rsp
@@ -299,7 +299,7 @@ message:
       settlement_reason_code: '01'
       settlement_reference_no: LcQnCo74ECYABS
       order_recon_status: '{{recon_status_04}}'
-    - id: 6e641c61-69c3-419c-9c65-2f8b892063a2
+    - id: '{{order_id_5}}'
       state: Completed
       payment:
         uri: https://api.razorpay.com/rsp
