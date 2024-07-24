@@ -6,7 +6,7 @@ const ajv = new Ajv({
 });
 const {
   createAuthorizationHeader,
-  isSignatureValid,
+  isHeaderValid
 } = require("ondc-crypto-sdk-nodejs");
 const { buildTemplate,getPublicKey } = require("../utils/utils");
 const { trigger } = require("./triggerService");
@@ -72,10 +72,10 @@ const validateRequest = async (
       if (security.generate_sign) {
         //create response header
         const header = await createAuthorizationHeader({
-          message: data,
+          body: data,
           privateKey: security.privatekey,
-          bapId: security.subscriber_id, // Subscriber ID that you get after registering to ONDC Network
-          bapUniqueKeyId: security.ukId, // Unique Key Id or uKid that you get after registering to ONDC Network
+          subscriberId: security.subscriber_id, // Subscriber ID that you get after registering to ONDC Network
+          subscriberUniqueKeyId: security.ukId, // Unique Key Id or uKid that you get after registering to ONDC Network
         });
 
         if(!flag){res.setHeader("Authorization", header);}
@@ -105,7 +105,7 @@ const verifyHeader = async (req, security) => {
   // logger.info(`Public key retrieved from registry : ${public_key}`);
   // const public_key = security.publickey;
   //Validate the request source against the registry
-  const isValidSource = await isSignatureValid({
+  const isValidSource = await isHeaderValid({
     header: headers.authorization, // The Authorisation header sent by other network participants
     body: req.body,
     publicKey: public_key,

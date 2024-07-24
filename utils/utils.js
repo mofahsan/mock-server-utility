@@ -7,6 +7,7 @@ const operator = require("../operator/util.js");
 
 const resolveTemplate = (context, template, values) => {
   init();
+  
   return template.replace(/\{\{([^}]+)\}\}/g, (match, key) => {
     try {
       var value = values[key];

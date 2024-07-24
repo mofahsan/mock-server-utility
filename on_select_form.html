@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    
+  </head>
+
+
+  <body ondc-template="financial-services:sip-set-up">
+    <script> 
+
+    var transaction_id = new URLSearchParams(window.location.search).get('transaction_id')
+
+    document.addEventListener("DOMContentLoaded", (event) => {
+    if(transaction_id === null){
+    document.getElementById("transaction_id_validation").style.display = "block"
+    }else{
+        document.getElementById("transaction_id_validation").style.display = "none"
+    }
+     console.log("DOM fully loaded and parsed");
+    });
+
+  
+    async function submit(e) {
+      e.preventDefault();
+
+        // Get form data
+        const data = {}
+       const form =  document.getElementById("form").getElementsByTagName("input")
+       for (const input of form){
+            data[input.id]=input.value
+       }
+       data["form_approval"] = document.getElementById("form").getElementsByTagName("select")[0].value
+       const payload = {
+        "businessPayload":{
+           form_data:{...data} 
+        },
+        "updatedSession":{
+            "transaction_id": transaction_id
+        },
+        "messageId":"dummymessageid",
+        "response":{
+            "context":{
+                "action":"form_submission_kyc_info",
+                "transaction_id": transaction_id
+            }}
+        }
+      try {
+        if(transaction_id === null) return
+        const response = await fetch("http://localhost:5502/mapper/ondc", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        if(responseData.success){
+            document.getElementById("transaction_id_validation").innerHTML="Form has been submitted successfully"
+            document.getElementById("transaction_id_validation").style.display = "block"
+        }
+        console.log(responseData)
+        // Handle the response data
+      } catch (error) {
+        // Handle errors
+        console.error("Error:", error);
+      }
+    //   document.getElementById("textmsg").innerHTML="Form has been submitted successfully"
+
+    }
+  </script>
+    <div id="textmsg" >This will be redirected to a different HTML page
+    Click button to submit   
+    </div>
+    <div id = "form" >
+        <!-- <label for="name">name </label>
+        <input type="text" id="name" name="name" />
+        <label for="email">email </label>
+        <input type="text" id="email" name="email" />
+        <label for="adhaar">adhaar </label>
+        <input type="text" id="adhaar" name="adhaar" /> -->
+        <select id="approval">
+            <option value="approved"> approve</option>
+            <option value="rejected"> reject</option>
+        </select>
+        <button  type="button" id="submit" onclick="submit(event)" value="Submit"> Submit </button>
+    </div>
+    <div style="display: block;" id="transaction_id_validation">
+        <h1>transaction_id not found in query params</h1>
+    </div>
+  </body>
+
+
+</html>
+
+
+
+

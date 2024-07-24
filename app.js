@@ -337,6 +337,7 @@ async function startUp(file) {
   const logger = log.init();
 
   app.listen(server.port, () => {
+    console.log()
     logger.info(`This app is running on port number : ${server.port}`);
   });
   app.use(router);
